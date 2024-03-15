@@ -11,7 +11,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ id, searchResult, onPortfolioCreate }: Props): JSX.Element => {
   return (
-    <div className='card'>
+    <div key={id} id={id} className='card'>
         <img src="" alt="COMPANY LOGO" />
         <div className='details'>
             <h2>{searchResult.name}  ({searchResult.symbol})</h2>
