@@ -5,6 +5,7 @@ import Search from './Components/Search/Search'
 import { CompanySearch } from './company';
 import { searchCompanies } from './api';
 import ListPortfolio from './Components/Portfolio/ListPortfolio/ListPortfolio';
+import Navbar from './Components/Navbar/Navbar';
 
 function App() {
   /* logic for search */
@@ -44,11 +45,20 @@ function App() {
   }
   /* end form logic */ 
 
+  /* delete from portfolio logic */
+  const onPortfolioDelete = (e: any) => {
+    e.preventDefault();
+    const removed = portfolioValues.filter((value) => {
+      return value !== e.target[0].value;
+    });
+    setPortfolioValues(removed);
+  }
 
   return (
     <div className='App'>
+      <Navbar />
       <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange}  />
-      <ListPortfolio portfolioValues={portfolioValues} />
+      <ListPortfolio portfolioValues={portfolioValues} onPortfolioDelete={onPortfolioDelete} />
       <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} />
       {serverError && <div>Unable to connect to API</div>}
     </div>
