@@ -1,67 +1,16 @@
-import { SyntheticEvent, useState } from 'react';
+import { Outlet } from 'react-router'
 import './App.css'
-import CardList from './Components/CardList/CardList'
-import Search from './Components/Search/Search'
-import { CompanySearch } from './company';
-import { searchCompanies } from './api';
-import ListPortfolio from './Components/Portfolio/ListPortfolio/ListPortfolio';
-import Navbar from './Components/Navbar/Navbar';
+import Navbar from './Components/Navbar/Navbar'
 
 function App() {
-  /* logic for search */
-  const [search, setSearch] = useState<string>("");
-  const [portfolioValues, setPortfolioValues] = useState<string[]>([]);
-  //Always initialize the states with something for avoid "undefined" errors
-  const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
-  const [serverError, setServerError] = useState<string>("");
   
-  // we can also use SyntheticEvent instead of ChangeEvent or MouseEvent, this groups all the events in HTML
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    console.log(e);
-  }
-
-  const onSearchSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    const result = await searchCompanies(search);
-    //Type Narrowing  (we validated that the response is an array)
-    if (typeof result === "string") {
-      setServerError(result);
-    } else if (Array.isArray(result.data)) {
-      setSearchResult(result.data);
-    }
-    console.log(searchResult)
-  }
-  /* end logic for search */
-
-  /* form logic */
-  const onPortfolioCreate = (e: any) => {
-    e.preventDefault()
-    //we create the exist const for validate for duplicates 
-    const exist = portfolioValues.find((value) => value === e.target[0].value);
-    if(exist) return;
-    const updatedPortfolio = [...portfolioValues, e.target[0].value];
-    setPortfolioValues(updatedPortfolio);
-  }
-  /* end form logic */ 
-
-  /* delete from portfolio logic */
-  const onPortfolioDelete = (e: any) => {
-    e.preventDefault();
-    const removed = portfolioValues.filter((value) => {
-      return value !== e.target[0].value;
-    });
-    setPortfolioValues(removed);
-  }
 
   return (
-    <div className='App'>
+    <>
       <Navbar />
-      <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange}  />
-      <ListPortfolio portfolioValues={portfolioValues} onPortfolioDelete={onPortfolioDelete} />
-      <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate} />
-      {serverError && <div>Unable to connect to API</div>}
-    </div>
+      {/* with the Outlet component we render the search path result  ex: "/serch" */}
+      <Outlet />
+    </>
   )
 }
 
