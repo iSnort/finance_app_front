@@ -5,6 +5,7 @@ import { getCompanyProfile } from "../../api";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import CompanyDashboard from "../../Components/CompanyDashboard/CompanyDashboard";
 import Tile from "../../Components/Tile/Tile";
+import Spinner from "../../Components/Spinner/Spinner";
 
 interface Props {}
 
@@ -30,15 +31,21 @@ const CompanyPage = (props: Props) => {
 
           <Sidebar />
           {/* We can add a ! at the end of the our const ticker to avoid the error about undenied param */}
+          {/* This is a re usable component and it is the firts props that CompanyDashboard required, passed as a child compoenent */}
           <CompanyDashboard ticker={ticker!}>
-            {/* This is a re usable component and it is the firts props that CompanyDashboard required, passed as a child compoenent */}
             <Tile title="Company Name" subTitle={company.companyName} />
+            <Tile title="Price" subTitle={company.price.toString()} />
+            <Tile title="Sector" subTitle={company.sector} />
+            <Tile title="DCF" subTitle={company.dcf.toString()} />
+            <p className="bg-white shadow rounded text-gray-900 p-3 mt-1 m-4">
+              {company.description}
+            </p>
           </CompanyDashboard> 
 
         </div>
       )
       : (
-        <div className="flex text-center">Company not found!</div>
+        <Spinner />
       )
      }
     </>
