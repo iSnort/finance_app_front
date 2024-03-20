@@ -29,9 +29,9 @@ const CompanyPage = (props: Props) => {
         <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
 
           <Sidebar />
-
-          <CompanyDashboard>
-            {/* This is a re usable component */}
+          {/* We can add a ! at the end of the our const ticker to avoid the error about undenied param */}
+          <CompanyDashboard ticker={ticker!}>
+            {/* This is a re usable component and it is the firts props that CompanyDashboard required, passed as a child compoenent */}
             <Tile title="Company Name" subTitle={company.companyName} />
           </CompanyDashboard> 
 
