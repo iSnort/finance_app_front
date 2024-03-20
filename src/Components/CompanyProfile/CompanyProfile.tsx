@@ -1,4 +1,8 @@
+import { useOutletContext } from "react-router";
 import { CompanyKeyMetrics } from "../../company";
+import { useEffect, useState } from "react";
+import { getKeyMetrics } from "../../api";
+import RatioList from "../RatioList/RatioList";
 
 interface Props  {};
 
@@ -64,8 +68,30 @@ const tableConfig = [
 ];
 
 const CompanyProfile = (props: Props) => {
+  //it is important to allways type the useState and the useOutletContext for avoid errors
+  const ticker = useOutletContext<string>();
+  const [companyData, setCompanyData] = useState<CompanyKeyMetrics>();
+
+  useEffect(() => {
+    const getCompanyKeyMetrics = async () => {
+      const value = await getKeyMetrics(ticker);
+      setCompanyData(value?.data[0]);
+    }
+    getCompanyKeyMetrics();
+  }, []);
+
   return (
-    <div>CompanyProfile</div>
+    <>
+      { 
+        companyData ? (
+          <>
+            <RatioList data={companyData} config={tableConfig} />
+          </>
+        ) : (
+          <>Loading...</>
+        )
+    }
+    </>
   )
 }
 

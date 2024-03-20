@@ -1,7 +1,6 @@
-import { TestDataCompany } from "../Table/testData";
-
 
 type Props = {
+    // this is a re-usable component thas why the type is any 
     config: any;
     data: any;
 };
@@ -28,7 +27,7 @@ const RatioList = ({ config, data }: Props) => {
     });
 
     return (
-    <div className="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full" >
+    <div className="bg-white shadow rounded-lg mb-4 mt-4 ml-4 p-4 sm:p-6 h-full" >
         <ul className="divide-y didive-gray-200" >{renderRows}</ul>
     </div>
   )
